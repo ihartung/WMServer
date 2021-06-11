@@ -1,0 +1,7 @@
+*.swp
+__pycache__
+env
+*error.log
+media/*
+WMServer/.env
+!media/.gitkeep
