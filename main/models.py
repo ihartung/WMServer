@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Card(models.Model):
-    deck = models.foreignKey('Deck', on_delete=CASCADE)
+    deck = models.ForeignKey('Deck', on_delete=models.CASCADE)
     front = models.TextField()
     back = models.TextField()
 

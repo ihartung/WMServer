@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from main.views import DeckView, DecksView
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('decks', DecksView),
+    path('deck/<int:index>', DeckView),
+    path('csrf', views.csrf),
+    path('ping', views.ping),
 ]
