@@ -44,9 +44,18 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'main',
-    'corsheaders'
+    'corsheaders',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+     'rest_framework',
+     'rest_framework.authtoken',
+     'rest_auth',#for social login
+     'rest_auth.registration',
 ]
 
 MIDDLEWARE = [
@@ -134,6 +143,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+SITE_ID=1
 
 CORS_ALLOWED_ORIGINS = [
         'http://127.0.0.1:8000',

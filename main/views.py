@@ -2,6 +2,7 @@ from django.shortcuts import render
 from main.models import Card, Deck
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
 
 def DecksView(request):
     decks = Deck.objects.all().only('title')
@@ -10,6 +11,13 @@ def DecksView(request):
 
 
 def DeckView(request, index=0):
+    if request.method == "GET":
+        cards = Card.objects.filter(deck=index).values('front','back')
+        card_list = list(cards);
+        return JsonResponse(card_list, safe=False)
+
+@login_required
+def EditView(request, index=0):
     if request.method == "POST":
         deck = Deck()
         deck.title = request.POST['title']
@@ -29,10 +37,6 @@ def DeckView(request, index=0):
         tmp = get_object_or_404(Deck, id=index)
         tmp.delete()
         return
-    if request.method == "GET":
-        cards = Card.objects.filter(deck=index).values('front','back')
-        card_list = list(cards);
-        return JsonResponse(card_list, safe=False)
     if request.method == "PATCH":
         params = QueryDict(request.body)
         tmp = get_object_or_404(Deck, id=index)
@@ -43,5 +47,3 @@ def DeckView(request, index=0):
             tmp.deck = deck.id
             tmp.save()
         return 
-
-# Create your views here.
