@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gunicorn -c ./gunicorn/wmconf.py --error-logfile ./gunicorn/error.log WMServer.wsgi
