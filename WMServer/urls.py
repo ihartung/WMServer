@@ -25,4 +25,5 @@ urlpatterns = [
     path('deck/<int:index>', DeckView),
     path('csrf', views.csrf),
     path('ping', views.ping),
+    path('google/', views.GoogleLogin.as_view(), name='google_login'),
 ]

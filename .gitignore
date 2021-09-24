@@ -3,5 +3,6 @@ __pycache__
 env
 *error.log
 media/*
+static/*
 WMServer/.env
 !media/.gitkeep
