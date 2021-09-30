@@ -15,15 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main.views import DeckView, DecksView, EditView
+from main.views import CreateView, DeckView, DecksView, EditView
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('decks', DecksView),
-    path('accounts/', include('allauth.urls')),
     path('deck/<int:index>', DeckView),
+    path('edit/<int:index>', EditView),
+    path('create', CreateView),
     path('csrf', views.csrf),
     path('ping', views.ping),
-    path('google/', views.GoogleLogin.as_view(), name='google_login'),
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/google/login/', views.GoogleLogin.as_view(), name='google_login'),
 ]
