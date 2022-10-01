@@ -27,10 +27,11 @@ def CreateView(request, index=0):
         deck.title = request.POST['title']
         deck.save()
         content = request.FILES['cards'].read()
-        for line in content.decode('utf-8').strip().split('\n'):
+        for line in content.decode('utf-8').strip().split(';'):
             tmp = Card()
-            print(line)
-            pair = line.split(',')
+            if ':' not in line:
+                continue
+            pair = line.strip().split(':')
             tmp.front = pair[0]
             tmp.back = pair[1]
             tmp.deck = deck
