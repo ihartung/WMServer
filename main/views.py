@@ -5,6 +5,16 @@ from django.core import serializers
 from django.contrib.auth.decorators import login_required
 import json
 
+def getDeck(index):
+    cards = Card.objects.filter(deck=index).values('pk','front','back')
+
+    card_list = list(cards);
+    title = list(Deck.objects.filter(id=index).values('title'))
+    result = {'title': title[0]['title'], 'id': index, 'cards': card_list}
+    return result
+
+
+
 def DecksView(request):
     decks = Deck.objects.all().only('title')
     data = serializers.serialize('json', decks)
@@ -13,12 +23,23 @@ def DecksView(request):
 
 def DeckView(request, index=0):
     if request.method == "GET":
-        cards = Card.objects.filter(deck=index).values('pk','front','back')
+        return JsonResponse(getDeck(index), safe=False)
 
-        card_list = list(cards);
-        title = list(Deck.objects.filter(id=index).values('title'))
-        result = {'title': title[0]['title'], 'id': index, 'cards': card_list}
-        return JsonResponse(result, safe=False)
+@login_required
+def CardView(request, index=0):
+    if request.method == "POST":
+        id = request.POST['id']
+        if id != -1:
+            card = get_object_or_404(Card, pk=id)
+        else:
+            card = Card()
+        card.front = request.POST['front']
+        card.back = request.POST['back']
+        card.deck = request.POST['deck']
+        card.save()
+
+        return JsonResponse(getDeck(card.deck), safe=False)
+
 
 @login_required
 def CreateView(request, index=0):
